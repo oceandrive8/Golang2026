@@ -1,20 +1,14 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
-	"awesomeProject/internal/handlers"
-	"awesomeProject/internal/middleware"
+	"awesomeProject/internal/app"
+	"fmt"
 )
 
 func main() {
-	taskHandler := handlers.NewTaskHandler()
-
-	var handler http.Handler = taskHandler
-	handler = middleware.APIKey(handler)
-	handler = middleware.Logging(handler)
-
-	log.Println("Server running on :8080")
-	log.Fatal(http.ListenAndServe(":8080", handler))
+	// Run the app and handle errors
+	if err := app.Run(); err != nil {
+		fmt.Printf("Error running app: %v\n", err)
+		return
+	}
 }
